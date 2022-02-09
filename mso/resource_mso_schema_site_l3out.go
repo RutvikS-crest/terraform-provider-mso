@@ -1,6 +1,7 @@
 package mso
 
 import (
+	"fmt"
 	"log"
 	"strings"
 
@@ -62,12 +63,27 @@ func setMSOSchemaSiteL3outAttributes(l3outMap *models.IntersiteL3outs, d *schema
 	d.Set("schema_id", l3outMap.SchemaID)
 }
 
-func resourceMSOSchemaSiteL3outImport(d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error){
-	log.Println("[DEBUG] Schema Site L3out: Beginning Import",d.Id())
+func resourceMSOSchemaSiteL3outImport(d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
+	log.Println("[DEBUG] Schema Site L3out: Beginning Import", d.Id())
 	msoClient := m.(*client.Client)
-	getAttributes:=strings.Split(d.Id(),"/")
-	if 
-	log.Println("[DEBUG] Schema Site L3out: Import Completed",d.Id())
+	getAttributes := strings.Split(d.Id(), "/")
+	if len(getAttributes) != 9 || getAttributes[1] != "site" || getAttributes[3] != "template" || getAttributes[5] != "vrf" || getAttributes[7] != "l3out" {
+		return nil, fmt.Errorf("invalid import format")
+	}
+	var l3outMap models.IntersiteL3outs
+	l3outMap.SchemaID = getAttributes[0]
+	l3outMap.SiteId = getAttributes[2]
+	l3outMap.TemplateName = getAttributes[4]
+	l3outMap.VRFName = getAttributes[6]
+	l3outMap.L3outName = getAttributes[8]
+	l3outMapRemote, err := msoClient.ReadIntersiteL3outs(l3outMap)
+	if err != nil {
+		return nil, err
+	}
+	setMSOSchemaSiteL3outAttributes(l3outMapRemote, d)
+	d.SetId(l3outMap.L3outName)
+	log.Println("[DEBUG] Schema Site L3out: Import Completed", d.Id())
+	return []*schema.ResourceData{d}, nil
 }
 
 func resourceMSOSchemaSiteL3outCreate(d *schema.ResourceData, m interface{}) error {

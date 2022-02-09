@@ -107,6 +107,7 @@ func Provider() terraform.ResourceProvider {
 			"mso_schema_site_service_graph_node":         resourceMSOSchemaSiteServiceGraphNode(),
 			"mso_service_node_type":                      resourceMSOServiceNodeType(),
 			"mso_schema_template_contract_service_graph": resourceTemplateContractServiceGraph(),
+			"mso_schema_site_l3out":                      resourceMSOSchemaSiteL3out(),
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{

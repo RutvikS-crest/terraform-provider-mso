@@ -94,13 +94,13 @@ func resourceMSOSchemaSiteL3outCreate(d *schema.ResourceData, m interface{}) err
 	templateName := d.Get("template_name").(string)
 	vrfName := d.Get("vrf_name").(string)
 	l3outName := d.Get("l3out_name").(string)
-	var l3outMap *models.IntersiteL3outs
+	l3outMap := models.IntersiteL3outs{}
 	l3outMap.L3outName = l3outName
 	l3outMap.VRFName = vrfName
 	l3outMap.SiteId = siteId
 	l3outMap.TemplateName = templateName
 	l3outMap.SchemaID = schemaId
-	err := msoClient.CreateIntersiteL3outs(l3outMap)
+	err := msoClient.CreateIntersiteL3outs(&l3outMap)
 	if err != nil {
 		return err
 	}
@@ -142,13 +142,13 @@ func resourceMSOSchemaSiteL3outDelete(d *schema.ResourceData, m interface{}) err
 	templateName := d.Get("template_name").(string)
 	vrfName := d.Get("vrf_name").(string)
 	l3outName := d.Get("l3out_name").(string)
-	var l3outMap *models.IntersiteL3outs
+	l3outMap := models.IntersiteL3outs{}
 	l3outMap.L3outName = l3outName
 	l3outMap.VRFName = vrfName
 	l3outMap.SiteId = siteId
 	l3outMap.TemplateName = templateName
 	l3outMap.SchemaID = schemaId
-	err := msoClient.DeleteIntersiteL3outs(l3outMap)
+	err := msoClient.DeleteIntersiteL3outs(&l3outMap)
 	if err != nil {
 		return err
 	}

@@ -11,8 +11,8 @@ import (
 
 var testAccProviders map[string]terraform.ResourceProvider
 var testAccProvider *schema.Provider
-var siteNames = []string{"ansible_test"}
-var tenantNames = []string{"acctest_crest"}
+var siteNames = []string{"ansible_test", "azure_ansible_test"}
+var tenantNames = []string{"acctest_crest", "crest_test_azure"}
 var validSchemaId = "6206831f1d000012864f99a8"
 var inValidScheamaId = "620683151d0000f1854f99a4"
 var epg = "/schemas/621392f81d0000282a4f9d1c/templates/ACC_CREST/anps/UntitledAP1/epgs/test_epg"
@@ -90,6 +90,27 @@ func GetParentConfigBDDHCPPolicy(tenant, schema, name string) string {
 		name        = "%s"
 	}
 	`, tenant, tenant, schema, schema, name, name, name, name, name)
+	return resource
+}
+
+func CreateSchemaSiteAnpEpgConfig(site, tenant, templateName, anpName, epgName string) string {
+	resource := CreatSchemaSiteConfig(site, tenant, templateName)
+	resource += fmt.Sprintf(`
+	resource "mso_schema_site_anp" "example" {
+		schema_id     = mso_schema.example.id
+		anp_name      = %s
+		template_name = %s
+		site_id       = data.mso_site.example.id
+	}
+
+	resource "mso_schema_site_anp_epg" "test" {
+		schema_id     = mso_schema.test.id
+		template_name = %s
+		site_id       = data.mso_site.test.id
+		anp_name      = mso_schema_site_anp.example.anp_name
+		epg_name      = %s
+	}
+	`, anpName, templateName, templateName, epgName)
 	return resource
 }
 

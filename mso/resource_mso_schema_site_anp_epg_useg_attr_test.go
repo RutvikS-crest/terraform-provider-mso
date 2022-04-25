@@ -121,7 +121,7 @@ func TestAccMSOSchemaSiteAnpEpgUsegAttr_Basic(t *testing.T) {
 				// checking with 'tag' type so that we can check all the type dependent required params
 				Config: MSOSchemaSiteAnpEpgUsegAttrWithRequired(siteNames[1], tenantNames[1], template_name, anpName, epgName, usegName, usegTypeTag, value, "startsWith", "MAC address"),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckMSOSchemaSiteAnpEpgUsegAttrExists(resourceName, &useg1), // DOUBT: can we use same &useg1 var for the new resource creation
+					testAccCheckMSOSchemaSiteAnpEpgUsegAttrExists(resourceName, &useg1),
 					resource.TestCheckResourceAttrSet(resourceName, "schema_id"),
 					resource.TestCheckResourceAttr(resourceName, "template_name", template_name),
 					resource.TestCheckResourceAttr(resourceName, "anp_name", anpName),
@@ -138,7 +138,7 @@ func TestAccMSOSchemaSiteAnpEpgUsegAttr_Basic(t *testing.T) {
 				// checking with 'ip' type so that we can check all the type dependent required params
 				Config: MSOSchemaSiteAnpEpgUsegAttrWithRequired(siteNames[1], tenantNames[1], template_name, anpName, epgName, usegName, usegTypeIP, "10.0.0.1", "", "", "true"),
 				Check: resource.ComposeTestCheckFunc(
-					testAccCheckMSOSchemaSiteAnpEpgUsegAttrExists(resourceName, &useg1), // DOUBT: can we use same &useg1 var for the new resource creation
+					testAccCheckMSOSchemaSiteAnpEpgUsegAttrExists(resourceName, &useg1),
 					resource.TestCheckResourceAttrSet(resourceName, "schema_id"),
 					resource.TestCheckResourceAttr(resourceName, "template_name", template_name),
 					resource.TestCheckResourceAttr(resourceName, "anp_name", anpName),
@@ -177,7 +177,7 @@ func TestAccMSOSchemaSiteAnpEpgUsegAttr_Negative(t *testing.T) {
 			},
 			{
 				// invalid schema attribute
-				Config:      MSOSchemaSiteAnpEpgUsegAttrsForRandomAttrName(siteNames[1], tenantNames[1], template_name, anpName, epgName, usegName, usegTypeMAC, randomParameter, randomValue),
+				Config:      MSOSchemaSiteAnpEpgUsegAttrsForRandomAttrName(siteNames[1], tenantNames[1], template_name, anpName, epgName, usegName, usegTypeMAC, value, randomParameter, randomValue),
 				ExpectError: regexp.MustCompile(`An argument named(.)+is not expected here.`),
 			},
 			{
@@ -401,7 +401,7 @@ func MSOSchemaSiteAnpEpgUsegAttrWithoutRequired(site, tenant, template, anp, epg
 	return fmt.Sprintf(rBlock, useg, useg_type, value)
 }
 
-func MSOSchemaSiteAnpEpgUsegAttrsForRandomAttrName(site, tenant, template, anp, epg, useg, useg_type, key, value string) string {
+func MSOSchemaSiteAnpEpgUsegAttrsForRandomAttrName(site, tenant, template, anp, epg, useg, useg_type, useg_value, key, value string) string {
 	resource := CreatSchemaSiteConfig(site, tenant, template)
 	resource += MSOSchemaSiteAnpEpg(anp, epg)
 	resource += fmt.Sprintf(`
@@ -413,9 +413,10 @@ func MSOSchemaSiteAnpEpgUsegAttrsForRandomAttrName(site, tenant, template, anp, 
 		template_name = mso_schema_site.test.template_name
 		useg_name     = "%s"
 		useg_type     = "%s"
+		value		  = "%s"
 		%s            = "%s"
 	}
-	`, useg, useg_type, key, value)
+	`, useg, useg_type, useg_value, key, value)
 	return resource
 }
 

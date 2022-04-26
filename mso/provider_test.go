@@ -17,6 +17,36 @@ var validSchemaId = "6206831f1d000012864f99a8"
 var inValidScheamaId = "620683151d0000f1854f99a4"
 var epg = "/schemas/621392f81d0000282a4f9d1c/templates/ACC_CREST/anps/UntitledAP1/epgs/test_epg"
 
+func CreateServiceNodeResource(name string) string {
+	resource := fmt.Sprintf(`
+	resource "mso_tenant" "test" {
+		name = "%s"
+		display_name = "%s"
+	}
+		  
+	resource "mso_schema" "test" {
+		name          = "%s"
+		template_name = "%s"
+		tenant_id     = mso_tenant.test.id
+	}
+	
+	resource "mso_schema_template_service_graph" "test" {
+	  schema_id          = mso_schema.test.id
+	  template_name      = mso_schema.test.template_name
+	  service_graph_name = "%s"
+	  service_node_type  = "firewall"
+	}
+	
+	resource "mso_schema_site_service_graph_node" "test" {
+	  schema_id          = mso_schema_template_service_graph.test.schema_id
+	  template_name      = mso_schema_template_service_graph.test.template_name
+	  service_graph_name = mso_schema_template_service_graph.test.service_graph_name
+	  service_node_type  = "firewall"
+	}
+	`, name, name, name, name, name)
+	return resource
+}
+
 func CreatSchemaSiteConfig(site, tenant, name string) string {
 	resource := fmt.Sprintf(`
 	data "mso_site" "test" {

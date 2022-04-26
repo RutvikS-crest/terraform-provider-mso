@@ -460,7 +460,7 @@ func MSOSchemaSiteAnpEpg(anp, epg string) string {
 		template_name = mso_schema_site.test.template_name
 		site_id       = data.mso_site.test.id
 	}
-	
+
 	resource "mso_schema_site_anp_epg" "test" {
 		schema_id     = mso_schema.test.id
 		template_name = mso_schema_site.test.template_name

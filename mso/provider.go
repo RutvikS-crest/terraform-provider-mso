@@ -173,7 +173,7 @@ func Provider() terraform.ResourceProvider {
 			"mso_dhcp_relay_policy_provider":             datasourceMSODHCPRelayPolicyProvider(),
 			"mso_schema_template_bd_dhcp_policy":         datasourceMSOTemplateBDDHCPPolicy(),
 			"mso_schema_site_anp_epg_useg_attr":          datasourceMSOSchemaSiteAnpEpgUsegAttr(),
-			"mso_schema_site_service_graph_node":         datasourceMSOSchemaSiteServiceGraphNode(),
+			"mso_schema_site_service_graph_node": datasourceMSOSchemaSiteServiceGraphNode(),
 		},
 
 		ConfigureFunc: configureClient,

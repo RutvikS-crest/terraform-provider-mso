@@ -30,7 +30,7 @@ data "mso_schema_site_anp_epg_useg_attr" "useg_attrs" {
 * `template_name` - (Required) Template where Anp Epg Useg Attributes to be created.
 * `anp_name`      - (Required) Name of Application Network Profiles.
 * `epg_name`      - (Required) Name of Endpoint Group.
-* `useg_name`          - (Required) Name of Useg Attributes.
+* `useg_name`     - (Required) Name of Useg Attributes.
 
 ## Attribute Reference ##
 

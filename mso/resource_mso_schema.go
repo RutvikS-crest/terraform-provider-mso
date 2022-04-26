@@ -53,7 +53,7 @@ func resourceMSOSchemaCreate(d *schema.ResourceData, m interface{}) error {
 	templateName := d.Get("template_name").(string)
 	tenandId := d.Get("tenant_id").(string)
 
-	schemaApp := models.NewSchema("", name, templateName, tenandId)
+	schemaApp, _ := models.NewSchema("", name, templateName, tenandId, make([]interface{}, 0, 1))
 
 	cont, err := msoClient.Save("api/v1/schemas", schemaApp)
 	if err != nil {

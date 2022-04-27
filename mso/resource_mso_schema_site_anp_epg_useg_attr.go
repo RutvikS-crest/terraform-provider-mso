@@ -317,7 +317,7 @@ func resourceMSOSchemaSiteAnpEpgUsegAttrDelete(d *schema.ResourceData, m interfa
 	if err != nil {
 		return err
 	}
-	log.Println("[DEBUG] Schema Site Anp Epg Useg Attr: Beginning Destroy", d.Id())
+	log.Println("[DEBUG] Schema Site Anp Epg Useg Attr: Destroy Completed", d.Id())
 	// make empty to remove entry from tfstate file as resource has been destroyed
 	d.SetId("")
 	return err

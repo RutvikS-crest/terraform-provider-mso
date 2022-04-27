@@ -236,12 +236,33 @@ func MSOSchemaSiteAnpEpgUsegAttrMultiple(site, tenant, template, anp, epg, useg,
 		anp_name      = mso_schema_site_anp.test.anp_name
 		epg_name      = mso_schema_site_anp_epg.test.epg_name
 		template_name = mso_schema_site.test.template_name
-		useg_name     = "%s_${count.index}"
+		useg_name     = "%s_0"
 		useg_type     = "%s"
 		value         = "%s"
-		count         = 3
 	}
-	`, useg, useg_type, value)
+	resource "mso_schema_site_anp_epg_useg_attr" "test1" {
+		schema_id     = mso_schema.test.id
+		site_id       = data.mso_site.test.id
+		anp_name      = mso_schema_site_anp.test.anp_name
+		epg_name      = mso_schema_site_anp_epg.test.epg_name
+		template_name = mso_schema_site.test.template_name
+		useg_name     = "%s_1"
+		useg_type     = "%s"
+		value         = "%s"
+		depends_on    = [mso_schema_site_anp_epg_useg_attr.test]
+	}
+	resource "mso_schema_site_anp_epg_useg_attr" "test2" {
+		schema_id     = mso_schema.test.id
+		site_id       = data.mso_site.test.id
+		anp_name      = mso_schema_site_anp.test.anp_name
+		epg_name      = mso_schema_site_anp_epg.test.epg_name
+		template_name = mso_schema_site.test.template_name
+		useg_name     = "%s_2"
+		useg_type     = "%s"
+		value         = "%s"
+		depends_on    = [mso_schema_site_anp_epg_useg_attr.test1]
+	}
+	`, useg, useg_type, value, useg, useg_type, value, useg, useg_type, value)
 	return resource
 }
 

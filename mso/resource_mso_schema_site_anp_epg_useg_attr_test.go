@@ -16,7 +16,7 @@ func TestAccMSOSchemaSiteAnpEpgUsegAttr_Basic(t *testing.T) {
 	var useg1 models.SiteUsegAttr
 	var useg2 models.SiteUsegAttr
 	resourceName := "mso_schema_site_anp_epg_useg_attr.test"
-	template_name := "Template1"
+	template_name := makeTestVariable(acctest.RandString(5))
 	usegName := makeTestVariable(acctest.RandString(5))
 	usegNameOther := makeTestVariable(acctest.RandString(5))
 	anpName := makeTestVariable(acctest.RandString(5))
@@ -155,7 +155,7 @@ func TestAccMSOSchemaSiteAnpEpgUsegAttr_Basic(t *testing.T) {
 }
 
 func TestAccMSOSchemaSiteAnpEpgUsegAttr_Negative(t *testing.T) {
-	template_name := "Template1"
+	template_name := makeTestVariable(acctest.RandString(5))
 	usegName := makeTestVariable(acctest.RandString(5))
 	anpName := makeTestVariable(acctest.RandString(5))
 	epgName := makeTestVariable(acctest.RandString(5))
@@ -261,12 +261,12 @@ func testAccCheckMSOSchemaSiteAnpEpgUsegAttrDestroy(s *terraform.State) error {
 
 	for _, rs := range s.RootModule().Resources {
 
-		if rs.Type == "mso_schema_site_l3out" {
+		if rs.Type == "mso_schema_site_anp_epg_useg_attr" {
 			id := rs.Primary.ID
 			l3out, _ := L3outIdToL3outModel(id)
 			_, err := client.ReadIntersiteL3outs(l3out)
 			if err == nil {
-				return fmt.Errorf("Schema Site L3out still exist")
+				return fmt.Errorf("MSO Schema Site Anp Epg Useg Attr still exist")
 			}
 		}
 	}

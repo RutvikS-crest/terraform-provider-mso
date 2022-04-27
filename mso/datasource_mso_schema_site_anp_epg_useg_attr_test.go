@@ -14,7 +14,7 @@ func TestAccMSOSchemaSiteAnpEpgUsegAttr_DataSource(t *testing.T) {
 	var useg models.SiteUsegAttr
 	resourceName := "mso_schema_site_anp_epg_useg_attr.test"
 	datasourceName := "data.mso_schema_site_anp_epg_useg_attr.test"
-	template_name := "Template1"
+	template_name := makeTestVariable(acctest.RandString(5))
 	usegName := makeTestVariable(acctest.RandString(5))
 	anpName := makeTestVariable(acctest.RandString(5))
 	epgName := makeTestVariable(acctest.RandString(5))
@@ -202,5 +202,4 @@ func MSOSchemaSiteAnpEpgUsegAttrDataSourceWithRequired(site, tenant, template, a
 		useg_name     = mso_schema_site_anp_epg_useg_attr.test.useg_name
 	}`)
 	return resource
-
 }

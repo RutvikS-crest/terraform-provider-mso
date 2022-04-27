@@ -263,8 +263,8 @@ func testAccCheckMSOSchemaSiteAnpEpgUsegAttrDestroy(s *terraform.State) error {
 
 		if rs.Type == "mso_schema_site_anp_epg_useg_attr" {
 			id := rs.Primary.ID
-			l3out, _ := L3outIdToL3outModel(id)
-			_, err := client.ReadIntersiteL3outs(l3out)
+			useg, _ := UsegIdToUsegAttrModel(id)
+			_, _, err := client.ReadAnpEpgUsegAttr(useg)
 			if err == nil {
 				return fmt.Errorf("MSO Schema Site Anp Epg Useg Attr still exist")
 			}
